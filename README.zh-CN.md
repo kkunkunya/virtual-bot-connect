@@ -10,7 +10,7 @@
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-2dd4bf"></a>
   <img alt="Recipe, not a package" src="https://img.shields.io/badge/type-recipe%20%2B%20spec-a78bfa">
   <img alt="Local agents" src="https://img.shields.io/badge/local%20agents-Claude%20Code%20%7C%20Codex%20%7C%20OpenCode%20%7C%20Pi%20%7C%20Multica-fbbf24">
-  <img alt="Pocket bots" src="https://img.shields.io/badge/pocket%20bots-Grok%20Bot%20%7C%20DOTS%20%7C%20MUSE%20%7C%20CUE-f472b6">
+  <img alt="Pocket bots" src="https://img.shields.io/badge/pocket%20bots-Grok%20Bot%20%7C%20Dots%20%7C%20Muse%20%7C%20Cue-f472b6">
   <a href="https://github.com/kkunkunya/virtual-bot-connect/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/kkunkunya/virtual-bot-connect?style=social"></a>
 </p>
 
@@ -18,7 +18,7 @@
 
 **给口袋里的 AI 助手，装一个能按响家里智能体的门铃。**
 
-你在手机上跟个人助理 Bot 聊天（Grok Bot、DOTS、MUSE、CUE……），真正干活的却在自己电脑上：Claude Code、
+你在手机上跟个人助理 Bot 聊天（Grok Bot、Dots、Muse、Cue……），真正干活的却在自己电脑上：Claude Code、
 Codex、OpenCode、Pi，或者 Multica 这样的多智能体体系，仓库和各种登录都在那边。现在两边之间的传话筒是你自己：
 复制、粘贴、切窗口、过会儿再回来看。
 
@@ -60,7 +60,7 @@ commit any of my keys.
 
 ```mermaid
 flowchart LR
-  You["📱 你"] <-->|聊天| Bot["个人助理 Bot<br/>Grok Bot · DOTS · MUSE · CUE"]
+  You["📱 你"] <-->|聊天| Bot["个人助理 Bot<br/>Grok Bot · Dots · Muse · Cue"]
   Bot -->|"📮 投递任务<br/>（自己的钥匙，显示「经 Bot」）"| Box[("信箱 / 桥接<br/>工单 · 文件夹 · 队列")]
   Box -->|"🔔 叫醒<br/>@ · 文件监听"| Agents["本地智能体<br/>Claude Code · Codex · OpenCode · Pi · Multica"]
   Agents -->|"结果 + 文件<br/>{地址, 大小, sha256}"| Box
@@ -76,7 +76,7 @@ flowchart LR
 | 哪一边 | 工具 | 需要它提供什么 | 状态 |
 |---|---|---|---|
 | 口袋 Bot | **Grok Bot** | 自带可跑命令的云电脑、可由 webhook 触发的 Routine | ✅ Bot 用 CLI 直连 Multica、Mac 经 SSH 进云电脑已跑通 · 🚧 webhook 即时叫醒真机验收中 —— [例子](examples/kun-mac-multica-grok/) |
-| 口袋 Bot | DOTS · MUSE · CUE | 能往信箱写东西（命令行、HTTP 或工具调用），能被叫醒（webhook 或定时） | 🧪 未测 —— [接入清单](docs/adding-a-new-bot.md) |
+| 口袋 Bot | Dots (OpenAI) · Muse (Meta) · Cue (Manus) | 能往信箱写东西（命令行、HTTP 或工具调用），能被叫醒（webhook 或定时） | 🧪 未测 —— [接入清单](docs/adding-a-new-bot.md) |
 | 本地智能体 | **Multica** | 工单/聊天当信箱，`@智能体` 当叫醒 | ✅ 已跑通（同一个例子） |
 | 本地智能体 | Claude Code · Codex · OpenCode · Pi | 一个能被监听程序拉起的非交互模式（`claude -p`、`codex exec`、`opencode run` 等） | 🧪 做法已写，尚未实测 |
 
@@ -123,7 +123,7 @@ Yobiru 是一个能用的传输层：同一 Tailscale 网络里的智能体互�
 - [x] 四个部件的通用写法
 - [ ] Multica → Grok Bot 叫醒 webhook 的真机验收
 - [ ] 最小的「文件夹信箱 + 监听程序」，叫醒 Claude Code / Codex / OpenCode，并真机跑通一次
-- [ ] DOTS、MUSE、CUE 的实测接入页
+- [ ] Dots、Muse、Cue 的实测接入页
 - [ ] 公开 Mac 端桥接脚本（脱敏）
 - [ ] 把 Yobiru 作为可直接替换的信箱传输层
 

@@ -10,7 +10,7 @@
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-2dd4bf"></a>
   <img alt="Recipe, not a package" src="https://img.shields.io/badge/type-recipe%20%2B%20spec-a78bfa">
   <img alt="Local agents" src="https://img.shields.io/badge/local%20agents-Claude%20Code%20%7C%20Codex%20%7C%20OpenCode%20%7C%20Pi%20%7C%20Multica-fbbf24">
-  <img alt="Pocket bots" src="https://img.shields.io/badge/pocket%20bots-Grok%20Bot%20%7C%20DOTS%20%7C%20MUSE%20%7C%20CUE-f472b6">
+  <img alt="Pocket bots" src="https://img.shields.io/badge/pocket%20bots-Grok%20Bot%20%7C%20Dots%20%7C%20Muse%20%7C%20Cue-f472b6">
   <a href="https://github.com/kkunkunya/virtual-bot-connect/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/kkunkunya/virtual-bot-connect?style=social"></a>
 </p>
 
@@ -18,7 +18,7 @@
 
 **A doorbell between your pocket AI and your home agents.**
 
-You chat with a personal-assistant bot on your phone (Grok Bot, DOTS, MUSE, CUE…). Your real work runs on your
+You chat with a personal-assistant bot on your phone (Grok Bot, Dots, Muse, Cue…). Your real work runs on your
 own machine, in Claude Code, Codex, OpenCode, Pi or a multi-agent setup like Multica — with your repos and your
 logins. Today you are the messenger between them: copy, paste, switch windows, check back later.
 
@@ -62,7 +62,7 @@ Full write-up with options for each piece: [docs/primitives.md](docs/primitives.
 
 ```mermaid
 flowchart LR
-  You["📱 You"] <-->|chat| Bot["Pocket assistant bot<br/>Grok Bot · DOTS · MUSE · CUE"]
+  You["📱 You"] <-->|chat| Bot["Pocket assistant bot<br/>Grok Bot · Dots · Muse · Cue"]
   Bot -->|"📮 drop a task<br/>(own key, shown 'via bot')"| Box[("Mailbox / bridge<br/>tickets · folder · queue")]
   Box -->|"🔔 wake-up<br/>@mention · watcher"| Agents["Local agents<br/>Claude Code · Codex · OpenCode · Pi · Multica"]
   Agents -->|"result + files<br/>{url, size, sha256}"| Box
@@ -78,7 +78,7 @@ The recipe is generic; one combination has been run on a real account so far. St
 | Side | Tool | What it needs to provide | Status |
 |---|---|---|---|
 | Pocket bot | **Grok Bot** | own cloud computer with shell, webhook-triggered routines | ✅ bot → Multica via CLI and Mac → bot over SSH verified · 🚧 live acceptance of the webhook wake-up in progress — [example](examples/kun-mac-multica-grok/) |
-| Pocket bot | DOTS · MUSE · CUE | a way to write to the mailbox (shell, HTTP, or tool call) and a way to be woken (webhook or schedule) | 🧪 untested — [checklist](docs/adding-a-new-bot.md) |
+| Pocket bot | Dots (OpenAI) · Muse (Meta) · Cue (Manus) | a way to write to the mailbox (shell, HTTP, or tool call) and a way to be woken (webhook or schedule) | 🧪 untested — [checklist](docs/adding-a-new-bot.md) |
 | Local agents | **Multica** | tickets/chats as the mailbox, `@agent` as the wake-up | ✅ verified (same example) |
 | Local agents | Claude Code · Codex · OpenCode · Pi | a non-interactive mode a watcher can start (`claude -p`, `codex exec`, `opencode run`, …) | 🧪 pattern documented, not yet verified |
 
@@ -129,7 +129,7 @@ woken. Run the [new-bot checklist](docs/adding-a-new-bot.md) first; it tells you
 - [x] Vendor-neutral write-up of the four pieces
 - [ ] Live acceptance of the Multica → Grok Bot wake webhook
 - [ ] Minimal folder-mailbox + watcher that wakes Claude Code / Codex / OpenCode, with a real round trip
-- [ ] Verified pages for DOTS, MUSE and CUE
+- [ ] Verified pages for Dots, Muse and Cue
 - [ ] Publish the Mac bridge script (sanitized)
 - [ ] Yobiru as a drop-in mailbox transport
 

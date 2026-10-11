@@ -1,6 +1,6 @@
 # virtual-bot-connect
 
-> A vendor-neutral recipe for connecting local AI agents (Claude Code, Codex, OpenCode, Pi, Multica) to the personal-assistant bot you chat with on your phone (Grok Bot, DOTS, MUSE, CUE). Four pieces: mailbox, wake-up, permissions, audit trail. Documentation and sanitized examples only; no installer. MIT.
+> A vendor-neutral recipe for connecting local AI agents (Claude Code, Codex, OpenCode, Pi, Multica) to the personal-assistant bot you chat with on your phone (Grok Bot, Dots, Muse, Cue). Four pieces: mailbox, wake-up, permissions, audit trail. Documentation and sanitized examples only; no installer. MIT.
 
 If a user asked you to set this up, start with AGENTS.md (setup playbook) and docs/primitives.md. One combination (Mac + Multica + Grok Bot) has been run on a real account; other bots and agents are documented patterns, not yet verified.
 

@@ -25,7 +25,7 @@ using four pieces: **mailbox, wake-up, permissions, audit trail**. Read
 
 ### Step 1 — Interview the user (ask, don't guess)
 
-- Which pocket assistant bot? (Grok Bot, DOTS, MUSE, CUE, other.) More than one?
+- Which pocket assistant bot? (Grok Bot, Dots, Muse, Cue, other.) More than one?
 - Which local setup? (Claude Code, Codex, OpenCode, Pi, Multica, other.) One agent or several?
 - Is there already a shared place both could use (a ticket system with CLI/API, a folder reachable from both,
   a Tailscale network)?

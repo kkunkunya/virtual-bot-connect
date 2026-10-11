@@ -1,6 +1,6 @@
 # Adding a new bot
 
-Use this for any pocket assistant (Grok Bot, DOTS, MUSE, CUE, …) or a second bot on a platform you already use.
+Use this for any pocket assistant (Grok Bot, Dots, Muse, Cue, …) or a second bot on a platform you already use.
 The questions below decide which of the [four pieces](primitives.md) are possible; the Grok Bot answers are in
 [the example](../examples/kun-mac-multica-grok/grok.md).
 
