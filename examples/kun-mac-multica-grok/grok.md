@@ -15,7 +15,7 @@ Notes from connecting real Grok Bots. Host names, addresses and keys are placeho
 
 - Both machines join your Tailscale network. Give the bot computer a node name (`<bot-host>` below).
 - If Tailscale on the Mac runs in **userspace mode** (no admin rights), you cannot `ssh user@100.x.y.z`
-  directly. Use a `ProxyCommand` through `tailscale nc` — see [examples/ssh/ssh_config.example](../examples/ssh/ssh_config.example).
+  directly. Use a `ProxyCommand` through `tailscale nc` — see [examples/ssh/ssh_config.example](ssh/ssh_config.example).
 - Run a normal `sshd` on the bot computer on a high port, public-key only. Pin the host key in `known_hosts`.
 - Traffic may go through a DERP relay (~200 ms for us). `ControlMaster` makes repeated commands fast.
 
@@ -23,9 +23,9 @@ Notes from connecting real Grok Bots. Host names, addresses and keys are placeho
 
 | Path | What |
 |---|---|
-| `/workspace/remote/ensure-remote.sh` | watchdog: restart Tailscale if offline > 15 s, restore `/etc/hosts` ([sketch](../examples/ssh/ensure-remote.sh)) |
-| `/workspace/mailbox/{inbox,outbox}` | execution mailbox ([formats](../examples/mailbox/)) |
-| `/workspace/mailbox/standing-instructions.md` | long-lived instructions ([example](../examples/standing-instructions.md)) |
+| `/workspace/remote/ensure-remote.sh` | watchdog: restart Tailscale if offline > 15 s, restore `/etc/hosts` ([sketch](ssh/ensure-remote.sh)) |
+| `/workspace/mailbox/{inbox,outbox}` | execution mailbox ([formats](mailbox/)) |
+| `/workspace/mailbox/standing-instructions.md` | long-lived instructions ([example](standing-instructions.md)) |
 | `/workspace/jobs/<task-id>/` | working folder per job; the only place result files may come from |
 | `/workspace/remote/credentials/` | protected credentials (`0700` dir, `0600` files), loaded by the shell profile |
 | `/workspace/remote/CREDENTIALS.md` | registry: what credential, why, how to revoke — no values |

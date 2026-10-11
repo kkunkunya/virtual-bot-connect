@@ -59,11 +59,11 @@ The bot gives Multica a webhook (for Grok: a routine with a webhook trigger). Mu
 **encrypted and write-only** — the API only ever reports `webhook_configured: true`.
 
 When something the bot cares about happens, the server POSTs a short event to that webhook
-([example payload](../examples/webhook/wake-event.json)). The bot then reads the full content itself.
+([example payload](webhook/wake-event.json)). The bot then reads the full content itself.
 
 **Event types:** `mention`, `started`, `done`, `blocked`, `needs_owner`, `task`, `chat`.
 
-**Wake rules belong to the receiver** ([example](../examples/webhook/wake-rules.json)):
+**Wake rules belong to the receiver** ([example](webhook/wake-rules.json)):
 
 - which event types may wake it;
 - who may wake it: members / agents / other bots, each `all`, `none` or a list (bots default to `none`);

@@ -1,0 +1,29 @@
+# virtual-bot-connect
+
+> A vendor-neutral recipe for connecting local AI agents (Claude Code, Codex, OpenCode, Pi, Multica) to the personal-assistant bot you chat with on your phone (Grok Bot, DOTS, MUSE, CUE). Four pieces: mailbox, wake-up, permissions, audit trail. Documentation and sanitized examples only; no installer. MIT.
+
+If a user asked you to set this up, start with AGENTS.md (setup playbook) and docs/primitives.md. One combination (Mac + Multica + Grok Bot) has been run on a real account; other bots and agents are documented patterns, not yet verified.
+
+## Start here
+
+- [AGENTS.md](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/AGENTS.md): setup playbook for agents, plus maintainer rules
+- [README](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/README.md): overview, "works with" table, FAQ, roadmap
+- [README (中文)](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/README.zh-CN.md): Chinese overview
+
+## Docs
+
+- [The four pieces](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/docs/primitives.md): mailbox, wake-up, permissions and audit trail, with options and rules
+- [Adding a new bot](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/docs/adding-a-new-bot.md): capability questions and acceptance checklist
+
+## Example: Mac + Multica + Grok Bot
+
+- [Overview](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/examples/kun-mac-multica-grok/README.md)
+- [Architecture](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/examples/kun-mac-multica-grok/architecture.md)
+- [Multica integration](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/examples/kun-mac-multica-grok/multica-integration.md)
+- [Grok Bot specifics](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/examples/kun-mac-multica-grok/grok.md)
+- [Standing instructions template](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/examples/kun-mac-multica-grok/standing-instructions.md)
+
+## Optional
+
+- [Yobiru notes](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/research/yobiru.md): where the wake-up design comes from
+- [README benchmark](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/research/benchmark.md): techniques borrowed from Yobiru, baoyu-skills, Superpowers and anthropics/skills

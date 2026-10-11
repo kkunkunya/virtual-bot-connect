@@ -1,122 +1,173 @@
+<p align="center">
+  <img src="assets/banner.png" alt="virtual-bot-connect: a mailbox, a wake-up, permissions and an audit trail between the AI assistant in your pocket and the agents on your own machine" width="100%">
+</p>
+
+<p align="center">
+  <b>English</b> · <a href="README.zh-CN.md">简体中文</a>
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-2dd4bf"></a>
+  <img alt="Recipe, not a package" src="https://img.shields.io/badge/type-recipe%20%2B%20spec-a78bfa">
+  <img alt="Local agents" src="https://img.shields.io/badge/local%20agents-Claude%20Code%20%7C%20Codex%20%7C%20OpenCode%20%7C%20Pi%20%7C%20Multica-fbbf24">
+  <img alt="Pocket bots" src="https://img.shields.io/badge/pocket%20bots-Grok%20Bot%20%7C%20DOTS%20%7C%20MUSE%20%7C%20CUE-f472b6">
+  <a href="https://github.com/kkunkunya/virtual-bot-connect/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/kkunkunya/virtual-bot-connect?style=social"></a>
+</p>
+
 # virtual-bot-connect
 
-**Let your cloud chat bots and your home AI agents talk to each other — and wake each other up.**
+**A doorbell between your pocket AI and your home agents.**
 
-[中文说明](README.zh-CN.md) · MIT licensed · design notes + sanitized examples
+You chat with a personal-assistant bot on your phone (Grok Bot, DOTS, MUSE, CUE…). Your real work runs on your
+own machine, in Claude Code, Codex, OpenCode, Pi or a multi-agent setup like Multica — with your repos and your
+logins. Today you are the messenger between them: copy, paste, switch windows, check back later.
 
-You talk to a cloud bot (for example a [Grok](https://grok.com) Bot) from your phone. Your real work happens
-at home, in [Multica](https://github.com/multica-ai/multica), where coding and content agents run on your Mac
-with all your logins. This repo is the recipe for joining the two:
+**virtual-bot-connect is a vendor-neutral recipe for wiring the two together with four small pieces:
+a mailbox, a wake-up, permissions, and an audit trail.** The bot drops a task in the mailbox, the right local
+agent wakes up and does it, the result comes back with proof, and every step is written down where you can see
+it from your phone.
 
-- the **bot acts as your front desk** — it reads and writes Multica directly (tickets, chats, files) and
-  @-mentions the right home agent;
-- the **bot's cloud computer acts as a remote machine** — agents on your Mac can SSH in over Tailscale and run jobs;
-- **events wake the other side immediately** (webhooks), instead of everybody polling every 30 minutes.
+## Give this to your agent
 
-The wake-up design borrows heavily from [Yobiru](https://github.com/chekusu/yobiru) by Guo Yu — see
-[Acknowledgements](#acknowledgements).
+Paste this into Claude Code, Codex, OpenCode, Pi or any agent that can read a URL:
 
-> **Status:** working setup on one real account, shared as documentation. The bridge scripts and the Multica
-> server changes live in other repositories and are not published here yet. Field names in the examples are
-> illustrative — check them against your own versions.
+```text
+Fetch and follow https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/AGENTS.md
+to connect me to my personal-assistant bot. First ask me which bot I use and which local agent
+setup I run, then propose the smallest setup before changing anything. Never print, paste or
+commit any of my keys.
+```
+
+Your agent reads the playbook, interviews you, checks what your bot can actually do (shell? webhooks? schedule?),
+and builds the smallest bridge that fits. Nothing here is a black-box installer: every step is a document you can
+read first.
+
+<p align="center">
+  <img src="assets/demo.gif" alt="Animated illustration: a request from the phone lands in the mailbox, wakes a local agent, the result returns with a sha256 receipt and every step is logged" width="88%">
+  <br><sub><i>Animated illustration of the flow, not a screen recording.</i></sub>
+</p>
+
+## The four pieces
+
+| | Piece | What it does | Rule of thumb |
+|---|---|---|---|
+| 📮 | **Mailbox / bridge** | One place both sides can write to and read from: a ticket system, a shared folder, a queue. | Messages carry **pointers, not payloads**. Files travel as `{url, size, sha256}` and are checked before use. |
+| 🔔 | **Wake-up** | A new message wakes the receiver at once (webhook, `@mention`, file watcher) instead of everyone polling. | **The receiver decides who may wake it**: event types, hourly cap, quiet hours. Polling stays as the backstop. |
+| 🔐 | **Permissions** | Each bot gets its own revocable key; outward actions need your explicit yes. | **Drafts first** for anything public, paid or sent to third parties. Keys go in protected files, never in chat or argv. |
+| 🧾 | **Audit trail** | Every request, wake-up, result and file is recorded with who did it ("via &lt;bot&gt;"). | Keep **delivered ≠ woken ≠ done** apart. Write "unknown" rather than guess. |
+
+Full write-up with options for each piece: [docs/primitives.md](docs/primitives.md).
 
 ## How it fits together
 
 ```mermaid
 flowchart LR
-  You["📱 You (phone)"] <-->|chat| Bot["Cloud bot<br/>(e.g. Grok Bot)<br/>own cloud computer"]
-  Bot -->|"multica CLI<br/>bot key (same rights as you)"| M["Multica<br/>tickets · chats · audit"]
-  M -->|"@agent wakes it"| A["Home agents on your Mac<br/>coding · content · …"]
-  M -->|"webhook: event summary only<br/>(mention, done, blocked, task…)"| Bot
-  A -->|"SSH over Tailscale<br/>use cloud box as remote host"| Bot
-  Bridge["Mac mailbox bridge"] -->|"queue execution task<br/>+ wake webhook"| Bot
-  Bot -.->|"task_result:<br/>path + size + sha256"| Bridge
-  Bridge -->|"verified files attached<br/>to the ticket"| M
+  You["📱 You"] <-->|chat| Bot["Pocket assistant bot<br/>Grok Bot · DOTS · MUSE · CUE"]
+  Bot -->|"📮 drop a task<br/>(own key, shown 'via bot')"| Box[("Mailbox / bridge<br/>tickets · folder · queue")]
+  Box -->|"🔔 wake-up<br/>@mention · watcher"| Agents["Local agents<br/>Claude Code · Codex · OpenCode · Pi · Multica"]
+  Agents -->|"result + files<br/>{url, size, sha256}"| Box
+  Box -->|"🔔 wake-up<br/>webhook, summary only"| Bot
+  Box --- Log["🧾 Audit trail<br/>who · what · delivered / woken / done"]
+  Rules["🔐 Permissions<br/>per-bot keys · wake rules · drafts first"] -.-> Box
 ```
 
-Who wakes whom:
+## Works with
 
-| From → To | Trigger | Path |
-|---|---|---|
-| You → Bot | you send a message | the bot's own chat app |
-| Bot → home agent | bot @-mentions an agent in a Multica ticket or chat | `multica` CLI with a bot key |
-| Multica → Bot | an event the bot subscribed to (mention, task, done, blocked, needs-you…) | server POSTs the bot's routine webhook |
-| Mac → Bot box | an agent needs a remote machine | `ssh <bot-host>` via Tailscale |
-| Multica → Bot box (job) | a long job must run on the cloud computer | mailbox bridge + wake webhook |
-| *(fallback)* | anything missed, throttled or muted | bot's routine polls every 30 min |
+The recipe is generic; one combination has been run on a real account so far. Status is stated honestly.
 
-## Key ideas
+| Side | Tool | What it needs to provide | Status |
+|---|---|---|---|
+| Pocket bot | **Grok Bot** | own cloud computer with shell, webhook-triggered routines | ✅ bot → Multica via CLI and Mac → bot over SSH verified · 🚧 live acceptance of the webhook wake-up in progress — [example](examples/kun-mac-multica-grok/) |
+| Pocket bot | DOTS · MUSE · CUE | a way to write to the mailbox (shell, HTTP, or tool call) and a way to be woken (webhook or schedule) | 🧪 untested — [checklist](docs/adding-a-new-bot.md) |
+| Local agents | **Multica** | tickets/chats as the mailbox, `@agent` as the wake-up | ✅ verified (same example) |
+| Local agents | Claude Code · Codex · OpenCode · Pi | a non-interactive mode a watcher can start (`claude -p`, `codex exec`, `opencode run`, …) | 🧪 pattern documented, not yet verified |
 
-1. **Multica stays the ledger.** Every ticket, chat, status and file lives there, so you can see everything from
-   your phone. Bots are *clients* of Multica, not a parallel system.
-2. **Bots get a real key.** A bot you add as an admin gets a personal token with your rights, marked as a bot
-   key. Writes made with it are shown as **"via &lt;bot name&gt;"**, so a bot can never be mistaken for you
-   (and never "approves" something in your name).
-3. **The receiver decides who may wake it.** Each bot sets which events wake it, an hourly cap (default 6) and
-   quiet hours (default 23:00–08:00). Events that are throttled are *queued for the next check*, never dropped.
-4. **Messages carry pointers, not payloads.** A wake-up says *what happened and where*; the bot fetches the full
-   text with its own credentials. Files travel as `{url, size, sha256}` and are verified before use.
-5. **Delivered ≠ woken ≠ done.** Reports keep these three states apart and say "unknown" rather than guess.
-   An uncertain write is never blindly retried.
-6. **Outward actions are drafts first.** Posting publicly, messaging third parties or buying anything needs your
-   explicit "send". Work inside Multica does not.
+Got another combination working? A pull request with a page under `docs/` and one row here is the best
+contribution. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Reuse it
+## Real example: a Mac, Multica and Grok Bots
 
-### Prerequisites
+[`examples/kun-mac-multica-grok/`](examples/kun-mac-multica-grok/) is the author's own working setup, sanitized:
 
-- A [Multica](https://github.com/multica-ai/multica) workspace where you are admin, and the `multica` CLI.
-- A cloud bot that has its own computer with a shell (Grok Bots do; check yours with the
-  [new-bot checklist](docs/adding-a-new-bot.md)).
-- [Tailscale](https://tailscale.com) on both machines if you want the remote-host path.
-- Optional: a bot that can receive webhooks (Grok "Routines" can) for instant wake-ups.
+- **Mailbox:** Multica tickets and chats; a Mac-side bridge for long jobs that must run on the bot's computer.
+- **Wake-up:** `@mention` wakes home agents; Multica POSTs a summary to the Grok Bot's routine webhook (built server-side; live acceptance in progress).
+- **Permissions:** a bot key with "via &lt;bot&gt;" marking, receiver-owned wake rules (6/hour, quiet 23:00–08:00).
+- **Audit trail:** everything lives in Multica; result files arrive with size + sha256.
+- **Remote host:** agents on the Mac SSH into the bot's cloud computer over Tailscale.
 
-### Step by step
+## FAQ
 
-1. **Give the bot a key.** In Multica create a token for the bot (a personal API token works; a fork with an
-   "External bots" settings page adds bot marking and a revoke button). Never paste it into chat or a prompt —
-   hand it over through a protected file or stdin. → [docs/multica-integration.md](docs/multica-integration.md)
-2. **Install the CLI on the bot's computer** and log in from a fresh shell to prove it persists.
-3. **Give the bot standing instructions**: routing (which home agent handles what), reporting style, the
-   drafts-first rule, how to handle wake events. → [examples/standing-instructions.md](examples/standing-instructions.md)
-4. **Wire wake-ups**: register the bot's webhook URL/key with Multica (write-only), then set its wake rules.
-   → [examples/webhook/](examples/webhook/)
-5. **Optional — remote host**: join the bot's computer to your tailnet, run `sshd` on a high port with keys
-   only, add a watchdog. → [docs/grok.md](docs/grok.md), [examples/ssh/](examples/ssh/)
-6. **Optional — execution mailbox** for long jobs with verified result files.
-   → [examples/mailbox/](examples/mailbox/)
-7. **Test each path with a real round trip** and write down what you did *not* test.
+**Is this an app I install?**
+No. It is a recipe, a message spec and worked examples. Your agent reads them and builds the small glue your setup
+needs. The bridge scripts and Multica server changes from the example are not published yet (see Roadmap).
 
-Adding another bot later: [docs/adding-a-new-bot.md](docs/adding-a-new-bot.md).
+**How is this different from [Yobiru](https://github.com/chekusu/yobiru)?**
+Yobiru is a working transport: agents on a Tailscale network send each other messages, files and wake-ups. This
+repo is one layer up: how a *pocket assistant* hands work to *local agents* with a ledger, permissions and
+drafts-first rules. Our wake-up design borrows from Yobiru, and you can use Yobiru as the mailbox.
+
+**Do I need Multica?**
+No. Multica is the ledger in the example because it already has tickets, chats, `@mention` wake-ups and an audit
+log. A shared folder plus a file watcher, or any queue both sides can reach, also works as a mailbox.
+
+**Do I need Tailscale?**
+Only if a local agent needs to log in to the bot's cloud computer as a remote host. The mailbox and wake-up paths
+work without it.
+
+**Is it safe to give a bot a key to my agents?**
+Give each bot its own key that you can revoke in one click, show its writes as "via &lt;bot&gt;" so they never
+count as your own approval, keep outward actions as drafts, and keep sensitive projects off the bot side
+entirely. Details in [docs/primitives.md](docs/primitives.md#-permissions).
+
+**My bot has no shell. Can it still join?**
+Maybe. It needs some way to write into the mailbox (an HTTP tool, an email, a connector) and some way to be
+woken. Run the [new-bot checklist](docs/adding-a-new-bot.md) first; it tells you which paths are possible.
+
+## Roadmap
+
+- [x] Working example: Mac + Multica + Grok Bot (direct CLI, remote host, execution mailbox)
+- [x] Vendor-neutral write-up of the four pieces
+- [ ] Live acceptance of the Multica → Grok Bot wake webhook
+- [ ] Minimal folder-mailbox + watcher that wakes Claude Code / Codex / OpenCode, with a real round trip
+- [ ] Verified pages for DOTS, MUSE and CUE
+- [ ] Publish the Mac bridge script (sanitized)
+- [ ] Yobiru as a drop-in mailbox transport
 
 ## Repository layout
 
-```
-README.md / README.zh-CN.md   overview (English / 中文)
+```text
+README.md · README.zh-CN.md   overview (English / 中文)
+AGENTS.md                     playbook your agent follows to set this up
+llms.txt                      index for LLMs
 docs/
-  architecture.md             roles, channels, ground rules
-  multica-integration.md      bot keys, "via bot" attribution, wake rules, CLI cheat sheet
-  grok.md                     Grok Bot specifics: Tailscale + SSH, watchdog, pitfalls
-  adding-a-new-bot.md         checklist for connecting another bot
+  primitives.md               mailbox · wake-up · permissions · audit trail, with options
+  adding-a-new-bot.md         checklist for any new bot or platform
 examples/
-  standing-instructions.md    long-lived instructions to paste into the bot
-  webhook/                    wake event payload + wake rules
-  mailbox/                    execution task / result message formats
-  ssh/                        ssh_config and watchdog sketch
+  kun-mac-multica-grok/       the author's real setup: Multica + Grok Bot + Tailscale
 research/
-  yobiru.md                   what we learned from Yobiru (English)
-  yobiru.zh-CN.md             original Chinese notes
+  benchmark.md                what we borrowed from Yobiru, baoyu-skills, Superpowers, anthropics/skills
+  yobiru.md · yobiru.zh-CN.md notes on Yobiru's wake-up design
 ```
 
 ## Acknowledgements
 
-The "agents wake each other up" model here — receiver-owned wake rules, small messages that point to content,
-files fetched and checked by sha256, and keeping *delivered / woken / done* apart — comes from
-**[Yobiru](https://github.com/chekusu/yobiru)** by **Guo Yu ([@turingou](https://x.com/turingou))**
-([announcement](https://x.com/turingou/status/2109153922267107458)). Read its `SPEC.md`; it is the best part.
-Our notes on what we adopted and what we did not: [research/yobiru.md](research/yobiru.md).
+- **[Yobiru](https://github.com/chekusu/yobiru)** by Guo Yu ([@turingou](https://x.com/turingou)) for the wake-up
+  model: receiver-owned wake rules, small messages that point to content, sha256-checked files, and keeping
+  *delivered / woken / done* apart. Notes: [research/yobiru.md](research/yobiru.md).
+- README structure borrowed from [Superpowers](https://github.com/obra/superpowers) (the "fetch and follow"
+  one-liner), [baoyu-skills](https://github.com/JimLiu/baoyu-skills) (ask-your-agent install, star history,
+  language switcher), [Yobiru](https://github.com/chekusu/yobiru) (labelled concept visuals, honest status) and
+  [anthropics/skills](https://github.com/anthropics/skills) ("works with" by surface). Full comparison:
+  [research/benchmark.md](research/benchmark.md).
+- Thanks to [Multica](https://github.com/multica-ai/multica) and [Tailscale](https://tailscale.com).
 
-Thanks also to [Multica](https://github.com/multica-ai/multica) and [Tailscale](https://tailscale.com).
+Product names belong to their owners; listing them does not imply endorsement.
+
+## Star history
+
+<a href="https://star-history.com/#kkunkunya/virtual-bot-connect&Date">
+  <img src="https://api.star-history.com/svg?repos=kkunkunya/virtual-bot-connect&type=Date" alt="Star history chart" width="600">
+</a>
 
 ## License
 
