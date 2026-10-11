@@ -76,7 +76,9 @@ and what they need to do next (if anything).
 Project facts that are stable and specific to this repository:
 
 - It ships **documentation, a message spec and sanitized examples**. Bridge scripts and Multica server changes are
-  not published here yet. JSON field names in examples are illustrative, not a server protocol.
+  not published here yet. Existing mailbox example fields are illustrative. The versioned
+  [fast-access contract](docs/fast-access-protocol.md) has a runnable synthetic client under
+  `examples/fast-access-client/`; real endpoint compatibility must be verified per deployment.
 - The general recipe lives in `README*`, `docs/` and this file. Anything tied to one real setup lives under
   `examples/<setup>/`. The author's setup is [examples/kun-mac-multica-grok](examples/kun-mac-multica-grok/).
 - **Public repo:** only placeholders such as `<bot-host>`, `<webhook-key>`. Never commit tokens, keys, passwords,
