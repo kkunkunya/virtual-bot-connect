@@ -92,6 +92,17 @@ flowchart LR
 - **留痕**：所有东西都在 Multica 里；结果文件带大小和 sha256。
 - **远程主机**：Mac 上的智能体经 Tailscale SSH 进 Bot 的云电脑干活。
 
+## 实战经验
+
+- **分工**：私人 Bot 是管家，负责协调、跟进，并按你定的规矩验收和合并；多 agent 平台负责派活和沉淀。有风险的事才找人。
+- **推送接入的坑**：`Authorization` 要填完整的 `Bearer <token>` 一行；静音时段按主人所在时区设；每小时上限设太低会把真事件拦住或拖后。
+- **叫醒上限要讲理**：被拦下明确报错，人发的消息不受限，同一张单的唤醒合并，叫停一件事时相关的一起停。
+- **换钥匙**：删之前先确认谁在用；钥匙失效就自动离线、改派并通知你。
+- **每小时巡检、每天导出**：看谁在干活、有没有重复或卡住；记忆、聊天和留痕每天加密导出到私有仓库，新 Bot 能接着干。
+- **带图的结果一律做成手机网页交付。**
+
+详见 [docs/lessons-learned.zh-CN.md](docs/lessons-learned.zh-CN.md)
+
 ## 常见问题
 
 **这是一个要安装的应用吗？**
@@ -136,6 +147,7 @@ llms.txt                      给大模型的索引
 docs/
   primitives.md               信箱 · 叫醒 · 权限 · 留痕，各自的可选做法
   adding-a-new-bot.md         接入任何新 Bot / 新平台的清单
+  lessons-learned.zh-CN.md    实战经验：分工、推送、叫醒上限、换钥匙、巡检、留痕搬家
 examples/
   kun-mac-multica-grok/       作者的真实配置：Multica + Grok Bot + Tailscale
 research/

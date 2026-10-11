@@ -95,6 +95,22 @@ contribution. See [CONTRIBUTING.md](CONTRIBUTING.md).
 - **Audit trail:** everything lives in Multica; result files arrive with size + sha256.
 - **Remote host:** agents on the Mac SSH into the bot's cloud computer over Tailscale.
 
+## Lessons from daily use
+
+- **Split the roles:** the pocket bot is the butler (routes, follows up, accepts and merges by your rules); the
+  agent platform assigns work and keeps the record. People are pulled in only for risky steps.
+- **Push setup traps:** `Authorization` is the whole `Bearer <token>` line; quiet hours follow the owner's time
+  zone; an hourly cap that is too low holds back real events.
+- **Wake-up limits that behave:** blocked wakes return a clear error, people are never rate-limited, wakes for the
+  same task are merged, and stopping a task stops its related runs.
+- **Key rotation:** check who uses a key before deleting it; a dead key marks the client offline, reassigns its
+  work and notifies you.
+- **Hourly patrol, daily export:** check who is working, what is duplicated or stuck; export memory, chats and the
+  trail daily, encrypted, to a private repo so a new bot can take over.
+- **Results with images ship as one phone-friendly page.**
+
+Details: [docs/lessons-learned.md](docs/lessons-learned.md)
+
 ## FAQ
 
 **Is this an app I install?**
@@ -142,6 +158,7 @@ llms.txt                      index for LLMs
 docs/
   primitives.md               mailbox · wake-up · permissions · audit trail, with options
   adding-a-new-bot.md         checklist for any new bot or platform
+  lessons-learned.md          what daily use taught us (roles, push, limits, keys, patrol, export)
 examples/
   kun-mac-multica-grok/       the author's real setup: Multica + Grok Bot + Tailscale
 research/

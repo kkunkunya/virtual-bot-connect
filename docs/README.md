@@ -10,6 +10,7 @@
 
 - [四个部件 · The four pieces](primitives.md)：信箱、叫醒、权限、全程留痕，各自的可选做法与规矩。
 - [添加新 Bot · Adding a new bot](adding-a-new-bot.md)：新平台的能力问答与验收清单。
+- [实战经验](lessons-learned.zh-CN.md) · [Lessons learned](lessons-learned.md)：分工、推送、叫醒上限、换钥匙、巡检、留痕搬家。
 - [给 agent 的接入手册 · AGENTS.md](../AGENTS.md)
 
 ## 实际例子：Mac + Multica + Grok Bot

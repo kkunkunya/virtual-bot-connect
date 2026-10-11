@@ -14,6 +14,7 @@ If a user asked you to set this up, start with AGENTS.md (setup playbook) and do
 
 - [The four pieces](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/docs/primitives.md): mailbox, wake-up, permissions and audit trail, with options and rules
 - [Adding a new bot](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/docs/adding-a-new-bot.md): capability questions and acceptance checklist
+- [Lessons learned](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/docs/lessons-learned.md): role split, push setup traps, wake-up limits, key rotation, hourly patrol, daily encrypted export
 
 ## Example: Mac + Multica + Grok Bot
 
