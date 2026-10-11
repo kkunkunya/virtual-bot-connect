@@ -95,3 +95,27 @@ No real endpoint is required or exercised by the fixture commands. Successful mo
 do not prove a particular deployment supports the protocol, its latency target, or
 all production permission paths. The example intentionally omits writes, credential
 renewal, MCP serving, background supervision and full transcript storage.
+
+## Check the installed MCP contract
+
+On a POSIX host with Python 3.9+ and a Multica release providing the local MCP
+adapter, use its existing runtime identity:
+
+```sh
+python3 examples/fast-access-client/verify_mcp_contract.py -- multica mcp serve
+```
+
+This starts the command in the foreground and sends only initialize,
+notifications/initialized and tools/list. It never sends tools/call or mutates a
+business object. Success reports nine matching tools. A missing tool, unexpected
+argument, changed required field or checked schema bound exits with status 1.
+The check covers the documented argument table, strictness, limit ranges, chat
+mode enum, offset minimum and nested scope field names. Pagination semantics,
+fixed payload budgets and authorization still require integration verification.
+
+For an offline recheck, capture discovery with `--save-schema <local-schema.json>`
+and later use `--schema <local-schema.json>` instead of the command. Review any
+capture before sharing it; do not commit deployment-specific discovery output.
+An offline pass checks that capture only. Neither mode runs the cache fixture or
+proves real endpoint access. No additional credentials or public schema fixture
+are needed.

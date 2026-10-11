@@ -214,29 +214,69 @@ objects and return an explicit error beyond that. Limits are not throughput prom
 
 ## MCP adapter tool surface
 
-MCP is a thin adapter over the same authorization, read protocol and business APIs,
-not a second database. This table specifies the intended v1 surface; discover the
-actual installed adapter with `tools/list`. Availability must be verified per release.
-The reference Python example does **not** implement these tools.
+The local adapter runs as `multica mcp serve` over stdio using the existing
+runtime identity. It delegates to the same authorized APIs. Discover the installed
+release with `tools/list`: the strict input schemas reject unknown argument names
+before an HTTP call. The Python cache example does not implement an MCP server.
 
-| Tool | Inputs | Bounded return / behavior |
-| --- | --- | --- |
-| `changes_read` | scope; since or cursor; limit, max_bytes | Read envelope, including completion metadata |
-| `runs_list` | scope, active, cursor, limit, max_bytes | Active runs with the same envelope |
-| `issue_get` | workspace_id, id | One issue summary; detail explicit |
-| `comments_list` | workspace_id, issue_id, thread/window, limit | Compact directory; old root with new replies remains discoverable |
-| `chats_list` | workspace_id, filters, cursor, limit | Directory with unread and last activity |
-| `chat_history` | workspace_id, chat_id, cursor, limit | One bounded page; no read-cursor mutation |
-| `comment_create` | workspace_id, issue_id, content, optional parent_id | Created id/status/canonical URL where supported |
-| `chat_send` | workspace_id, chat_id, content, mode | Created id/status/canonical URL where supported |
-| `attachment_download` | attachment_id | Authorized file with size/hash verification |
+| Tool | Required inputs | Optional inputs | Bounds / behavior |
+| --- | --- | --- | --- |
+| `changes_read` | None | `scope`, `since`, `cursor`, `limit` | limit=1..200, default 100; one read-envelope page |
+| `runs_list` | None | `scope`, `cursor`, `limit` | limit=1..200, default 100; active runs only |
+| `issue_get` | `id` | `workspace_id`, `full` | One issue; description preview unless full |
+| `comments_list` | `id` | `workspace_id`, `thread_id`, `before`, `before_id`, `limit`, `offset`, `full` | limit=1..50, default 20; root directory or root plus replies |
+| `chats_list` | None | `workspace_id`, `since`, `cursor`, `limit` | limit=1..200, default 100; read envelope containing chats |
+| `chat_history` | `id` | `workspace_id`, `before`, `limit`, `full` | limit=1..50, default 20; one message page |
+| `comment_create` | `id`, `content` | `workspace_id`, `parent_id` | One comment; may notify or wake agents |
+| `chat_send` | `id`, `content`, `mode` | `workspace_id` | One message; explicit steer, queue or restart |
+| `attachment_download` | `attachment_id` | `workspace_id` | Verified private local file, size and SHA256 |
 
-Read tools declare readOnlyHint; annotations are not a security boundary. Credentials
-belong in the adapter's protected transport configuration. Writes retain existing
-server validation and quotas. Without server idempotency support, do not retry a
-timeout blindly: report ambiguous_write, query the outcome, then resolve it. A
-stdio adapter and a future Streamable HTTP adapter are distinct from this application's
-SSE event stream. Application SSE is not an MCP transport.
+Fields are strings except integer `limit` and `offset`, boolean `full`, and object
+`scope`. When supplied, scope requires string `mode` (`all_visible` or
+`workspace_ids`); its only optional field is `workspace_ids`, an array of UUID
+strings. IDs come from authorized discovery results. `id` means an issue UUID
+for issue/comment tools and a session UUID for chat tools. An omitted
+`workspace_id` uses the configured workspace. There is no generic `filters`
+argument. `mode` is required for chat_send and accepts only `steer`, `queue`, or
+`restart`; restart interrupts the current run.
+
+Pagination is explicit; tools do not fetch all pages automatically:
+
+- changes_read accepts an initial scope and optional RFC3339 since, or an opaque
+  cursor. On continuation omit scope and since. runs_list likewise omits scope
+  when using cursor. Both return the fast-access completion metadata; persist a
+  checkpoint only after completion and clear cached positions on reset.
+- chats_list accepts workspace_id/since initially; omit both when passing cursor.
+- comments_list without thread_id uses nonnegative offset (default zero) and
+  next_offset over a live root directory. This is not a durable cursor or a promise
+  of complete history: preserve comments_truncated. With thread_id, return the root
+  plus at most limit replies and carry the paired before/before_id cursor. Full
+  text requires thread_id. Retain content_truncated from summary responses.
+- chat_history passes the previous next_cursor as before, not as cursor. Full
+  includes message text for that page; it does not fetch the entire transcript.
+
+The adapter fixes the JSON API body and logical result budget at 50000 bytes;
+MCP wraps results as text and structured content, so this is not a wire-message
+size limit. No tool exposes max_bytes; runs_list has no active switch. Oversized
+results fail instead of returning partial JSON; narrow the thread/page as needed.
+Writes allow up to 32000 UTF-8 bytes. Attachment downloads have a 100 MiB cap and
+write only verified bytes into private local files; tool arguments cannot choose
+a destination path.
+
+The six read tools declare readOnlyHint and never mark chats read. Write tools and
+attachment_download do not declare read-only behavior (downloads write locally).
+Annotations grant no permissions. Credentials stay in existing protected runtime
+configuration. Permission refusals and rate limits return tool errors; retry_after
+is retained. A write with an uncertain outcome returns ambiguous_write and bounded
+reconciliation information. Inspect that result and subsequent history before
+retrying: absence from one page does not prove failure. Canonical URLs are retained
+when the server provides them, never invented.
+
+Application SSE is not MCP transport. This adapter uses stdio; remote serving is
+outside this example. To compare this table with an installed adapter without
+calling any business tool, run the [discovery checker](../examples/fast-access-client/README.md#check-the-installed-mcp-contract).
+The checker verifies argument names, required fields, strictness and selected
+schema bounds; it does not prove permissions, business behavior or deployment health.
 
 ## Compatibility and validation
 
