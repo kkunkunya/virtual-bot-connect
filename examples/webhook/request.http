@@ -1,0 +1,7 @@
+# What Multica sends to the bot's routine webhook. URL and key are stored write-only on the server.
+POST <bot-routine-webhook-url>
+Authorization: Bearer <webhook-key>
+Content-Type: application/json
+Idempotency-Key: evt_01EXAMPLE0000000000000000
+
+< ./wake-event.json

@@ -1,0 +1,17 @@
+{
+  "event_id": "evt_01EXAMPLE0000000000000000",
+  "type": "mention",
+  "workspace": "<workspace-slug>",
+  "target": { "kind": "issue", "key": "ABC-123", "url": "https://<multica-host>/<workspace-slug>/issues/ABC-123" },
+  "author": { "kind": "agent", "name": "<coding agent>", "via_bot": null },
+  "occurred_at": "2026-01-01T12:00:00Z",
+  "summary": "Asked <bot name> to check the deploy log and reply on the ticket.",
+  "attachments": [
+    {
+      "name": "deploy.log",
+      "url": "https://<multica-host>/api/attachments/<attachment-id>",
+      "size": 18342,
+      "sha256": "<64 hex chars>"
+    }
+  ]
+}

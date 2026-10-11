@@ -1,0 +1,11 @@
+{
+  "webhook_configured": true,
+  "events": ["mention", "task", "done", "blocked", "needs_owner", "chat"],
+  "wake_from": {
+    "member": { "mode": "all",  "ids": [] },
+    "agent":  { "mode": "list", "ids": ["<agent-id>"] },
+    "bot":    { "mode": "none", "ids": [] }
+  },
+  "hourly_limit": 6,
+  "quiet_hours": { "enabled": true, "start": "23:00", "end": "08:00", "timezone": "<Area/City>" }
+}

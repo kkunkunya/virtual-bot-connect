@@ -1,0 +1,14 @@
+# Never commit secrets or local state
+*.env
+.env*
+*.token
+*.key
+*.pem
+id_*
+known_hosts*
+credentials/
+secrets/
+config.local.*
+state.json
+*.log
+.DS_Store

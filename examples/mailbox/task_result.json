@@ -1,0 +1,12 @@
+{
+  "v": 1,
+  "id": "grok-1700000000000000000-ab12",
+  "from": "<bot name>",
+  "action": "task_result",
+  "task": "t-0123456789",
+  "exit_code": 0,
+  "text": "142 passed, 0 failed in 38s",
+  "files": [
+    { "path": "/workspace/jobs/t-0123456789/test.log", "size": 52113, "sha256": "<64 hex chars>" }
+  ]
+}

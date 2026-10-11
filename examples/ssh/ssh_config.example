@@ -1,0 +1,15 @@
+# ~/.ssh/config on the Mac — Tailscale in userspace mode, so tunnel through `tailscale nc`.
+# Use absolute paths: %d is not expanded inside ProxyCommand here.
+Host <bot-host>
+    HostName <bot-host>
+    User <remote-user>
+    Port <ssh-port>
+    IdentityFile /Users/<you>/.ssh/<bot-key>
+    IdentitiesOnly yes
+    UserKnownHostsFile /Users/<you>/.ssh/known_hosts_bots
+    StrictHostKeyChecking yes
+    ProxyCommand /path/to/tailscale --socket=/path/to/tailscaled.sock nc %h %p
+    ControlMaster auto
+    ControlPath /Users/<you>/.ssh/cm-%r@%h-%p
+    ControlPersist 10m
+    ServerAliveInterval 30

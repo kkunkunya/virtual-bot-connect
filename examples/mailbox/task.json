@@ -1,0 +1,14 @@
+{
+  "type": "task",
+  "id": "t-0123456789",
+  "to": "<bot name>",
+  "issue": "ABC-123",
+  "instructions": "Clone <repo>, run the test suite, save the log as test.log.",
+  "reply_with": {
+    "action": "task_result",
+    "task": "t-0123456789",
+    "text": "<command output or summary>",
+    "exit_code": 0,
+    "files_under": "/workspace/jobs/t-0123456789/"
+  }
+}
