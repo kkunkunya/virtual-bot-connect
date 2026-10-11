@@ -13,6 +13,8 @@
 - [实战经验](lessons-learned.zh-CN.md) · [Lessons learned](lessons-learned.md)：分工、推送、叫醒上限、换钥匙、巡检、留痕搬家。
 - [给 agent 的接入手册 · AGENTS.md](../AGENTS.md)
 
+- [Fast-access protocol v1](fast-access-protocol.md)：紧凑读取、可靠续传和只读摘要缓存；[可运行示例](../examples/fast-access-client/README.md) 使用假数据，未宣称生产联调通过。
+
 ## 实际例子：Mac + Multica + Grok Bot
 
 - [概览](../examples/kun-mac-multica-grok/README.md)

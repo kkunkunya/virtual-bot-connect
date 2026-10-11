@@ -173,6 +173,12 @@ research/
   <img src="https://api.star-history.com/svg?repos=kkunkunya/virtual-bot-connect&type=Date" alt="Star 曲线" width="600">
 </a>
 
+## 紧凑读取活动
+
+[Fast-access v1 协议](docs/fast-access-protocol.md)和
+[Python/SQLite 示例](examples/fast-access-client/)演示紧凑读取、事件提醒与崩溃后恢复摘要缓存。
+假数据演示无需账号、凭据或额外依赖；真实部署的兼容性仍需单独验证。
+
 ## 许可
 
 [MIT](LICENSE)

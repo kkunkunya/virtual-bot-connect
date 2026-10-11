@@ -95,6 +95,13 @@ contribution. See [CONTRIBUTING.md](CONTRIBUTING.md).
 - **Audit trail:** everything lives in Multica; result files arrive with size + sha256.
 - **Remote host:** agents on the Mac SSH into the bot's cloud computer over Tailscale.
 
+## Compact activity reads
+
+The [fast-access v1 protocol](docs/fast-access-protocol.md) and
+[Python/SQLite example](examples/fast-access-client/) demonstrate compact reads,
+SSE notifications and crash-safe summary caching. Run the synthetic demo without
+credentials or dependencies; real deployment compatibility remains to be verified.
+
 ## Lessons from daily use
 
 - **Split the roles:** the pocket bot is the butler (routes, follows up, accepts and merges by your rules); the
