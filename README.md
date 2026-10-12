@@ -11,7 +11,7 @@
 
 # virtual-bot-connect · Kun's offices
 
-**I want a butler to coordinate my AI offices, so I can spend my attention on decisions.**
+**I want a private butler to coordinate an office on each device and keep the employees' work as memory, so I can focus on decisions and retain that knowledge when the tools change.**
 
 When each computer has its own agents, a task board and remote access still leave me following every thread.
 My starting point is that human attention and the brain's I/O have a limit. I think someone who programs and
