@@ -1,13 +1,24 @@
 # Architecture
 
-## Roles
+## Roles in the office model
 
-- **Multica = the household manager.** All the real agents run here, on your own machine, with your logins.
-  It also keeps the record: tickets, chats, state, audit.
-- **Cloud bots = front desk + spare computer.** You can have several (e.g. "Workspace butler", "Personal
-  errands"). You talk to them while you are out; anything that needs home work goes into Multica, to the agent
-  in charge of that area.
+See [Kun's office model](../../docs/office-model.md). One device is one office, and the local agents are its
+employees. Only the Grok Bot + Multica example is verified; webhook wake-up remains in live testing.
+Dots, Muse, Cue and other local-agent integrations are untested.
+
+- **Owner = goals and decisions.** The owner does not follow every device and thread.
+- **Grok Bot = butler / general manager, with a cloud computer.** It coordinates the offices, follows up and
+  reports. Other personal assistants are possible replacements to assess, not verified integrations.
+- **Local device = office; local agents = employees.** They do work with that device's files and permitted access.
+- **Multica = work hub and ledger.** It assigns work to employees and retains tasks, chats, state and audit.
 - **Remote.** The bot's computer is in the cloud, not on your Mac. The Mac reaches it over Tailscale.
+
+## Memory to retain across offices
+
+Employees should leave useful decisions and experience in project memory. Tarot, toB, self-media and school
+are project areas, not a list of separately verified offices. Automatic Google Drive backups are **in progress**:
+Grok Bot every **2 days**, Multica every **7 days**. Recovery after changing devices or the general manager
+is unverified; the backup schedule is not completed automation.
 
 ## Channels
 

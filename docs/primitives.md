@@ -1,5 +1,9 @@
 # The four pieces
 
+These four pieces connect the butler and employees in [Kun's office model](office-model.md).
+The office model explains who coordinates work and why memory matters; this page covers the wiring.
+Only Grok Bot + Multica is verified; webhook wake-up is in live testing and other integrations are untested.
+
 Any connection between a pocket assistant bot and local agents comes down to four pieces. This page lists the
 options for each, what has been tried, and the rules that kept the real setup safe.
 The worked example for every piece is [examples/kun-mac-multica-grok](../examples/kun-mac-multica-grok/).
