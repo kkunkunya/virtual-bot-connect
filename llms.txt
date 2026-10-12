@@ -1,20 +1,32 @@
 # virtual-bot-connect
 
-> A vendor-neutral recipe for connecting local AI agents (Claude Code, Codex, OpenCode, Pi, Multica) to the personal-assistant bot you chat with on your phone (Grok Bot, Dots, Muse, Cue). Four pieces: mailbox, wake-up, permissions, audit trail. Documentation and sanitized examples only; no installer. MIT.
+> Kun's office model: a private network and personal butler, one device per office with agents as employees,
+> and project memory as the asset to retain across tools. Grok Bot is the butler/general manager; Multica is
+> the work hub and ledger in the verified example. Mailbox, wake-up, permissions and audit trail connect them.
+> Documentation, a message spec and sanitized examples; optional adaptation playbook, no installer. MIT.
 
-If a user asked you to set this up, start with AGENTS.md (setup playbook) and docs/primitives.md. One combination (Mac + Multica + Grok Bot) has been run on a real account; other bots and agents are documented patterns, not yet verified.
+Start with docs/office-model.md to understand the reasoning. Only Grok Bot + Multica is verified; webhook
+wake-up is in live testing. Dots, Muse, Cue and standalone local-agent integrations are untested. Automatic
+Google Drive backups are in progress: Grok Bot every 2 days, Multica every 7 days. The schedules and recovery
+are unverified; keeping the setup running after changing offices or the general manager is a design goal.
+If a user explicitly asks to adapt the setup, read AGENTS.md and docs/primitives.md next.
 
 ## Start here
 
 - [AGENTS.md](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/AGENTS.md): setup playbook for agents, plus maintainer rules
-- [README](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/README.md): overview, "works with" table, FAQ, roadmap
+- [README](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/README.md): office model, verification-status table, FAQ, roadmap
 - [README (中文)](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/README.zh-CN.md): Chinese overview
+
+## Office model
+
+- [Office model](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/docs/office-model.md): butler, device offices, memory and backup status
+- [办公室模型](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/docs/office-model.zh-CN.md): 中文叙事与验证边界
 
 ## Docs
 
 - [The four pieces](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/docs/primitives.md): mailbox, wake-up, permissions and audit trail, with options and rules
 - [Adding a new bot](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/docs/adding-a-new-bot.md): capability questions and acceptance checklist
-- [Lessons learned](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/docs/lessons-learned.md): role split, push setup traps, wake-up limits, key rotation, hourly patrol, daily encrypted export
+- [Lessons learned](https://raw.githubusercontent.com/kkunkunya/virtual-bot-connect/main/docs/lessons-learned.md): role split, push setup traps, wake-up limits, key rotation, hourly patrol, project memory and Google Drive backups in progress
 
 ## Example: Mac + Multica + Grok Bot
 

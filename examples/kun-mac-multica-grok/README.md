@@ -1,5 +1,9 @@
 # Example: a Mac, Multica and Grok Bots
 
+The author's verified local office and cloud-butler example, sanitized. See [Kun's office model](../../docs/office-model.md)
+for the role split and memory goal. Wider multi-office deployments are not implied by this example. Automatic
+Google Drive backups are in progress (Grok Bot every 2 days, Multica every 7 days); recovery is unverified.
+
 The author's own setup, sanitized. Host names, addresses and keys are placeholders. Some Multica features used
 here (an *External bots* settings page, "via bot" attribution, wake rules) were built in a Multica fork for this
 project and may not be in upstream Multica; with plain upstream you can still use a personal API token and the CLI.

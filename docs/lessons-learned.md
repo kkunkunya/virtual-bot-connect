@@ -5,9 +5,14 @@
 What running a pocket bot alongside a multi-agent setup every day taught us. These are general practices;
 they are written without machine names, addresses, keys or ticket numbers on purpose.
 
-## 1. Split the roles: the bot coordinates, the agent platform works
+## 1. Split the offices: the butler coordinates, employees work
 
-- The **pocket bot is the butler**: it takes your requests, routes them, follows up and reports back. It does
+One device is one office, with agents as its employees. The owner gives goals; the butler contacts offices,
+follows up and brings back a summary. This is the [office model](office-model.md), not a claim that every
+device or assistant has already been integrated. Only Grok Bot + Multica is verified; webhook wake-up is in
+live testing, while Dots, Muse, Cue and other local-agent integrations are untested.
+
+- The **pocket bot is the butler**: it takes your requests, hands work to the relevant office, follows up and reports back. It does
   not do the heavy work itself.
 - The **multi-agent platform is the work hub**: it assigns tasks to agents and keeps the results, history and
   knowledge.
@@ -16,10 +21,10 @@ they are written without machine names, addresses, keys or ticket numbers on pur
 
 ## 2. Push notifications: three easy mistakes
 
-- **Authorization must be the full header line**, including the scheme: `Bearer <token>`, not just the token.
+- **The Authorization header value includes the scheme:** set it to `Bearer <token>`, not just the token.
 - **Quiet hours follow the owner's time zone**, not the server's. Write the time zone next to the hours.
 - **Don't set the hourly push cap too low.** If it is too tight, real events get blocked or pushed back in
-  busy hours. If wakes arrive late or bounce, raise the cap before anything else.
+  busy hours. If wake-ups arrive late or are blocked, check the reason first. Raise the cap when legitimate events are hitting it.
 
 ## 3. Limits on bot-triggered wake-ups
 
@@ -42,10 +47,14 @@ they are written without machine names, addresses, keys or ticket numbers on pur
 Run a small check every hour: who is working right now, is anything running twice, is anything stuck. Clean up
 small problems automatically (duplicate runs, stale locks) and only report the ones that need a decision.
 
-## 6. Keep the trail, so you can move house
+## 6. Keep project memory for future device changes
 
-Export memory, chats and the audit trail every day, encrypt them and store them in a **private** repository.
-A new bot, or the same bot on a new account, can then pick up where the old one left off.
+Employees should leave useful decisions and experience in project memory. Tarot, toB, self-media and school
+are the areas whose accumulated knowledge Kun wants to keep.
+
+**Automatic Google Drive backups are in progress:** Grok Bot every **2 days**, Multica every **7 days**.
+These are intended schedules, not completed automation. Continuing after changing devices or the general
+manager is a design goal; recovery is unverified. See [memory and backup status](office-model.md#memory-and-backup-status).
 
 ## 7. Results with images go out as a phone page
 

@@ -1,5 +1,15 @@
 # AGENTS.md
 
+This repository shares **Kun's office model**: a private network and personal butler, one device per office
+with agents as employees, and accumulated project memory as the asset to retain. The butler coordinates and
+reports; Multica is the work hub and ledger in the verified example. The owner does not supervise every thread.
+Read [docs/office-model.md](docs/office-model.md) before adapting the connecting pieces.
+
+**Status boundary:** only Grok Bot + Multica has been verified. Webhook wake-up is in live testing; Dots,
+Muse, Cue and other local-agent integrations are untested. Automatic Google Drive backups are **in progress**:
+Grok Bot every **2 days**, Multica every **7 days**. Those schedules and recovery are not accepted as working.
+Changing offices or the general manager while retaining memory is a design goal, not a proven restore.
+
 This file is for AI agents. There are two jobs you may have been given:
 
 - **A. A user asked you to connect their local agents to their personal-assistant bot.** Follow the playbook below.
@@ -85,8 +95,13 @@ Project facts that are stable and specific to this repository:
   real webhook URLs, Tailscale node names or IPs, emails, internal host or service names — in text, images or
   GIFs (check image metadata and visible text too). Scan the full Git history before pushing
   ([CONTRIBUTING.md](CONTRIBUTING.md)).
-- Keep both READMEs in step: a change to one is a change to the other.
-- When adding a bot or agent, record exactly what was verified and add a row to "Works with".
+- Keep both READMEs and both office-model pages in step. Lead with the butler, device offices and memory;
+  optional setup guidance comes after the explanation. Preserve the Yobiru comparison and acknowledgement.
+- Tarot, toB, self-media and school may be named as project areas; this permission does not extend to private
+  project data, machine names, addresses or keys.
+- Keep backup work marked **in progress** until real run and restore evidence exists; never turn a planned
+  schedule or portability goal into a verified capability.
+- When adding a bot or agent, record exactly what was verified and update the verification-status table in both READMEs.
 - Glossary: [CONTEXT.md](CONTEXT.md) · docs index: [docs/README.md](docs/README.md) · decisions:
   [docs/adr/](docs/adr/) · evidence pointers: [docs/evidence/INDEX.md](docs/evidence/INDEX.md) ·
   benchmark of README techniques: [research/benchmark.md](research/benchmark.md).
